@@ -1,4 +1,5 @@
 = Migrating User Key Encryption to Master Key Encryption
+:toc: right
 
 == Why Should I Move Away From User Key-based Encryption
 
@@ -27,11 +28,11 @@ and xref::configuration/server/occ_command.adoc#apps-commands[`occ app:disable`]
 
 You can see an example of calling the commands listed below, configured to require no user interaction.
 
-[source,console]
+[source,console,subs="attributes+"]
 ----
-sudo -u www-data occ encryption:decrypt-all --continue=yes && \
-  sudo -u www-data occ encryption:disable --no-interaction && \
-  sudo -u www-data occ app:disable --no-interaction encryption
+{occ-command-example-prefix} encryption:decrypt-all --continue=yes && \
+  {occ-command-example-prefix} encryption:disable --no-interaction && \
+  {occ-command-example-prefix} app:disable --no-interaction encryption
 ----
 
 [[remove-the-encryption-records-from-the-owncloud-database]]
@@ -49,7 +50,7 @@ NOTE: The example code assumes that the path to the SQLite database is
 
 [source,console]
 ----
-sqlite3 data/owncloud.database
+sudo sqlite3 data/owncloud.database
 sqlite> delete from oc_appconfig where appid='encryption';
 sqlite> select * from oc_appconfig where appid='encryption';
 ----
@@ -78,12 +79,12 @@ This requires the following steps:
 
 The following example shows how to do this.
 
-[source,console]
+[source,console,subs="attributes+"]
 ----
-sudo -u www-data occ app:enable encryption && \
-  sudo -u www-data occ encryption:enable && \
-  sudo -u www-data occ encryption:select-encryption-type masterkey -y && \
-  sudo -u www-data occ encryption:encrypt-all && \
+{occ-command-example-prefix} app:enable encryption && \
+  {occ-command-example-prefix} encryption:enable && \
+  {occ-command-example-prefix} encryption:select-encryption-type masterkey -y && \
+  {occ-command-example-prefix} encryption:encrypt-all
 ----
 
 [[verify-the-encrypted-files]]
@@ -95,7 +96,7 @@ You should see a number of records, as in the output of the example below.
 
 [source,console]
 ----
-$ sqlite3 data/owncloud.database
+sudo sqlite3 data/owncloud.database
 sqlite> select * from oc_appconfig where appid='encryption';
 encryption|recoveryKeyId|recoveryKey_73facda6
 encryption|publicShareKeyId|pubShare_73facda6

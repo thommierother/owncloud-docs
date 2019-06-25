@@ -1,9 +1,6 @@
-[[enable-the-encryption-app]]
 = Enable the Encryption App
-Matthew Setter <matthew@matthewsetter.com>
 :keywords: encryption, occ
 :description: This guide will show you how to enable the encryption app in ownCloud.
-:experimental:
 :page-partial:
 
 Before you can use encryption you must enable the encryption app. 
@@ -13,9 +10,9 @@ You can do this either from the command-line or from the Web-UI.
 // tag::enable-encryption-app-via-command-line[]
 To enable the encryption app, run the following command:
 
-[source,console]
+[source,console,subs="attributes+"]
 ----
-sudo -u www-data php occ app:enable encryption
+{occ-command-example-prefix} app:enable encryption
 ----
 
 If the encryption app successfully enables, then you should see the
@@ -46,7 +43,7 @@ git clone https://github.com/owncloud/encryption.git apps/encryption
 To enable encryption from the Web-UI:
 
 . Go to menu:Settings[Admin > Apps] and click on kbd:[Show disabled apps]
-. When the disabled apps are rendered click kbd:[Enable] under _"Default encryption module"_.
-. After that go to menu:Settings[Admin > Encryption], and enable kbd:[Enable server-side encryption].
+. When the disabled apps are rendered click btn:[Enable] under _"Default encryption module"_.
+. After that go to menu:Settings[Admin > Encryption], and enable btn:[Enable server-side encryption].
 . Then, under _"Default encryption module"_, select the desired encryption type, whether _"Master Key"_ (recommended) or _"User-key"_.
 . Now you must log out and then log back in to initialize your encryption keys.

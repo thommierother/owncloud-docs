@@ -1,4 +1,6 @@
 = Acceptance Tests
+:toc: right
+:toclevels: 1
 :behat-tags-docs-url: http://behat.org/en/latest/user_guide/organizing.html#tags
 
 [[the-test-directory-structure]]
@@ -37,6 +39,7 @@ This directory contains `behat.yml` which sets up the acceptance tests.
 In this file we can add new suites and define the contexts needed by each suite.
 Here's an example configuration:
 
+[source,yaml,subs="attributes+"]
 ----
 default:
   autoload:
@@ -47,7 +50,7 @@ default:
         - '%paths.base%/../features/apiMain'
       contexts:
         - FeatureContext: &common_feature_context_params
-            baseUrl:  http://localhost:8080
+            baseUrl:  http://localhost:{std-port-http}
             adminUsername: admin
             adminPassword: admin
             regularUserPassword: 123456
@@ -131,7 +134,7 @@ After cloning core, run `make` as your webserver's user in the root directory of
 
 Now that the prerequisites are satisfied, and assuming that `$installation_path` is the location where you cloned the `ownCloud/core` repository, the following commands will prepare the installation for running the acceptance tests.
 
-[source,bash]
+[source,bash,subs="attributes+"]
 ----
 # Remove current configuration (if existing)
 sudo rm -rf $installation_path/data/*
@@ -143,9 +146,9 @@ mysql -u root -h localhost -e "drop user oc_admin"
 mysql -u root -h localhost -e "drop user oc_admin@localhost"
 
 # Install ownCloud server with the command-line
-sudo -u www-data $installation_path/occ maintenance:install \
+{occ-command-example-prefix} maintenance:install \
   --database='mysql' --database-name='owncloud' --database-user='root' \
-  --database-pass=` --admin-user='admin' --admin-pass='admin'
+  --database-pass='mysqlrootpassword' --admin-user='admin' --admin-pass='admin'
 ----
 
 === Types of Acceptance Tests
@@ -686,7 +689,7 @@ Here's example code for a `Given` step:
 
 [source,php]
 ----
-include::{examplesdir}/core/acceptance-tests/given-step.php[]
+include::example$core/acceptance-tests/given-step.php[]
 ----
 
 The code calls the method for the `When` step and then checks the HTTP status code.
@@ -702,7 +705,7 @@ Here's example code for a `When` step:
 
 [source,php]
 ----
-include::{examplesdir}/core/acceptance-tests/when-step.php[]
+include::example$core/acceptance-tests/when-step.php[]
 ----
 
 The code saves the response so that later `Then` steps can examine it.
@@ -716,7 +719,7 @@ Here's example code for a `Then` step:
 
 [source,php]
 ----
-include::{examplesdir}/core/acceptance-tests/then-step.php[]
+include::example$core/acceptance-tests/then-step.php[]
 ----
 
 However, a `Then` step may need to do actions of its own to retrieve more information about the state of the system.
@@ -724,7 +727,7 @@ For example, after changing a user password we could check that the user can sti
 
 [source,php]
 ----
-include::{examplesdir}/core/acceptance-tests/then-step-with-actions.php[]
+include::example$core/acceptance-tests/then-step-with-actions.php[]
 ----
 
 In the above example, `listFolder` is called and does an API call to access the file and then asserts that the response has a valid ETag.

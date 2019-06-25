@@ -1,4 +1,5 @@
 = Virus Scanner Support
+:toc: right
 
 [[overview]]
 == Overview
@@ -267,6 +268,15 @@ image:antivirus-executable.png[image]
 When you are satisfied with how ClamAV is operating, you might want to
 go back and change all of your logging to less verbose levels.
 
+=== What To Do With Infected Files Found During Scans
+
+When infected files are detected during a scan, the app can take one of two actions:
+
+* **Only log**: Log the event.
+* **Delete file**: Delete the detected file.
+
+Set btn:[When infected files were found during a background scan] to the value that suits your needs.
+
 [[rule-configuration]]
 === Rule Configuration
 
@@ -374,18 +384,18 @@ The dropdown supports the following three options:
 | Unchecked | No action should be taken
 |===
 
-With all these changes made, click the check mark on the lefthand side
+With all these changes made, click the btn:[check mark] on the lefthand side
 of the "**Match by**" column, to confirm the change to the rule.
 
 [[add-a-new-rule]]
 ==== Add A New Rule
 
-To add a new rule, click the button marked "Add a rule" at the bottom
+To add a new rule, click the button marked btn:[Add a rule] at the bottom
 left of the rules table. Then follow the process outlined in
 xref:default-ruleset[Update An Existing Rule].
 
 [[delete-an-existing-rule]]
 ==== Delete An Existing Rule
 
-To delete an existing rule, click the rubbish bin icon on the far
+To delete an existing rule, click the btn:[rubbish bin] icon on the far
 right-hand side of the rule that you want to delete.
