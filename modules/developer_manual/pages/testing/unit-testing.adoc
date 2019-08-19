@@ -4,6 +4,7 @@
 :recommended-way-to-organise-tests-url: https://phpunit.readthedocs.io/en/latest/organizing-tests.html
 :phpunit-docs-url: https://phpunit.readthedocs.io/en/latest/installation.html
 :page-aliases: core/unit-testing.adoc
+:encryption-app-url: https://github.com/owncloud/encryption
 
 [[php-unit-tests]]
 == PHP Unit Tests
@@ -78,21 +79,97 @@ You can find more information in {phpunit-docs-url}[the PHPUnit documentation].
 [[running-php-unit-tests-for-owncloud-10.0]]
 === Running PHP Unit tests for ownCloud >= 10.0
 
-There are existing tests provided by ownCloud which are ready to run.
+There are existing test options provided by ownCloud.
+To run them, change into the root directory of your ownCloud installation and run `grep "make test" <(make help)` to see tests and parameters available.
 
-* Change into `webroot` and run `make help` to see tests and parameters
-available.
+You should see output similar to the below example.
 
-Testing apps
+[source,console]
+----
+make test-acceptance-api	run API acceptance tests
+make test-acceptance-cli	run CLI acceptance tests
+make test-acceptance-webui	run webUI acceptance tests
+make test-js-debug		run Javascript tests in debug mode (continuous)
+make test-js			run Javascript tests
+make test-php-phan		run PHP phan static code analyzer
+make test-php-phpstan		run PHP phpstan static code analyzer
+make test-php-style-fix		run PHP code style checks and fix any issues found
+make test-php-style		run PHP code style checks
+make test-php-unit		run all PHP tests
+make test			run all tests
+----
 
-* To run the tests for a specific app with the provided PHPUnit version,
-change into `<webroot>/apps/<appname>` and
+==== Testing Apps
 
+To run the tests for a specific app with the provided PHPUnit version: 
+
+. Change into the apps directory, in the root directory of your ownCloud installation
+. Then change into the directory of the app that you want to test. 
+. Run the follow command. 
++
+--
+[source,console]
 ----
 make test-php-unit
 ----
 
-[[writing-php-unit-tests]]
+Here's an example of running the command in {encryption-app-url}[the encryption app]:
+
+[source,console]
+----
+php -d zend.enable_gc=0 ../../lib/composer/bin/phpunit --configuration ./phpunit.xml --testsuite unit
+PHPUnit 6.5.14 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 7.2.19-0ubuntu0.19.04.2
+Configuration: /var/www/owncloud-community/apps/encryption/phpunit.xml
+Error:         No code coverage driver is available
+
+a test string for helloWelcome to your ownCloud account!
+
+This is just an example file for developers and git users. 
+The packaged and released versions will come with better examples.
+
+a test string for world.a foo testLets modify again3Welcome to your ownCloud account!
+
+This is just an example file for developers and git users. 
+The packaged and released versions will come with better examples.
+
+a test string for world.a foo testLets modify again3Welcome to your ownCloud account!
+
+This is just an example file for developers and git users. 
+The packaged and released versions will come with better examples.
+
+a test string for world.............................................................  63 / 251 ( 25%)
+............................................................... 126 / 251 ( 50%)
+............................................................... 189 / 251 ( 75%)
+..............................................................  251 / 251 (100%)
+
+Time: 29.21 seconds, Memory: 32.00MB
+
+OK (251 tests, 724 assertions)
+----
+--
+
+
+[NOTE] 
+====
+Apps that are part of core do not have their own Makefile. 
+These are: 
+
+* comments
+* dav
+* federatedfilesharing
+* federation
+* files
+* files_external
+* files_sharing
+* files_trashbin
+* files_versions
+* provisioning_api
+* systemtags
+* updatenotification.
+====
+
 === Writing PHP Unit tests
 
 To get started, do the following:
@@ -108,7 +185,7 @@ injection.
 
 [NOTE]
 ====
-You’ll most likely run your tests under a different user than the Web server. 
+You'll most likely run your tests under a different user than the Web server. 
 This might cause problems with your PHP settings (i.e., `open_basedir`) and requires you to adjust your configuration.
 ====
 
@@ -161,7 +238,7 @@ running PHPUnit
 phpunit --bootstrap tests/bootstrap.php apps/myapp/tests/testsuite.php
 ----
 
-If you run the test suite as a user other than your Web server, you’ll
+If you run the test suite as a user other than your Web server, you'll
 have to adjust your php.ini and file rights.
 
 /etc/php/php.ini
