@@ -153,8 +153,7 @@ OK (251 tests, 724 assertions)
 
 [NOTE] 
 ====
-Apps that are part of core do not have their own Makefile. 
-These are: 
+Apps that are part of core *do not* have their own Makefile; these apps are: 
 
 * comments
 * dav
@@ -178,6 +177,8 @@ To get started, do the following:
 * Create a PHP file in the directory and `require_once` your class which you want to test.
 
 Then you can run the created test with `phpunit`.
+
+TIP: Alternatively, you can use link:{attachmentsdir}/core/Makefile.example[the default Makefile] to automate your unit tests.
 
 If you use ownCloud functions in your class under test (i.e:
 OC::getUser()) you’ll need to bootstrap ownCloud or use dependency
