@@ -101,11 +101,14 @@ make test			run all tests
 
 ==== Testing Apps
 
-To run the tests for a specific app with the provided PHPUnit version: 
+To run the tests for a specific app with the provided PHPUnit version:
 
-. Change into the apps directory, in the root directory of your ownCloud installation
-. Then change into the directory of the app that you want to test. 
-. Run the follow command. 
+. Change into the `apps-external` directory, in the root directory of your ownCloud installation.
++
+IMPORTANT: Please *do not* use the `apps` directory.
+. Clone the app from GitHub.
+. Change into the newly cloned directory.
+. Run the following command:
 +
 --
 [source,console]
@@ -153,20 +156,8 @@ OK (251 tests, 724 assertions)
 
 [NOTE] 
 ====
-Apps that are part of core *do not* have their own Makefile; these apps are: 
-
-* comments
-* dav
-* federatedfilesharing
-* federation
-* files
-* files_external
-* files_sharing
-* files_trashbin
-* files_versions
-* provisioning_api
-* systemtags
-* updatenotification.
+Apps that are part of core *do not* have their own Makefile. 
+Third party apps are all apps that are not distributed by https://marketplace.owncloud.com/publishers/owncloud[ownCloud] or not in xref:installation/apps_supported.adoc[the supported apps list].
 ====
 
 === Writing PHP Unit tests
