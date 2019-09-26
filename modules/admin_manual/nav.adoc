@@ -21,6 +21,7 @@
 *** xref:installation/changing_the_web_route.adoc[Changing Your ownCloud URL]
 *** xref:installation/apps_management_installation.adoc[Installing and Managing Apps]
 *** xref:installation/apps_supported.adoc[Supported Apps]
+**** xref:installation/apps/mediaviewer/index.adoc[Media Viewer]
 *** xref:installation/selinux_configuration.adoc[SELinux Configuration]
 *** xref:installation/letsencrypt/index.adoc[Using Let's Encrypt SSL Certificates]
 **** xref:installation/letsencrypt/using_letsencrypt.adoc[Using Letsencrypt]
@@ -185,3 +186,4 @@
 **** xref:enterprise/user_management/user_auth_shibboleth.adoc[Shibboleth Integration]
 **** xref:enterprise/user_management/saml_2.0_sso.adoc[SAML 2.0 Based SSO]
 ** xref:document_classification/index.adoc[Document Classification]
+** xref:found_a_mistake.adoc[Found a Mistake?]
