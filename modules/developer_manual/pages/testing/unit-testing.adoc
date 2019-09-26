@@ -103,9 +103,7 @@ make test			run all tests
 
 To run the tests for a specific app with the provided PHPUnit version:
 
-. Change into the `apps-external` directory, in the root directory of your ownCloud installation.
-+
-IMPORTANT: Please *do not* use the `apps` directory.
+. Change into one of the writable directories listed in the `apps_paths` array in `config/config.php`.
 . Clone the app from GitHub.
 . Change into the newly cloned directory.
 . Run the following command:
