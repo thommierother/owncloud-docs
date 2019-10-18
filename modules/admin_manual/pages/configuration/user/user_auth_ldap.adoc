@@ -1,6 +1,7 @@
 = User Authentication with LDAP
 :toc: right
 :toclevels: 1
+:page-aliases: go/admin-ldap.adoc
 :linkattrs:
 // URLS
 :activate-ldap-directory-syntax-filters-url: http://social.technet.microsoft.com/wiki/contents/articles/5392.active-directory-ldap-syntax-filters.aspx
@@ -700,7 +701,6 @@ If you have trouble with certificate validation, make sure that:
 Compared to earlier ownCloud versions, no further tweaks need to be done to make ownCloud work with Active Directory. 
 ownCloud will automatically find the correct configuration in the set-up process.
 
-[[memberof-read-memberof-permissions]]
 === memberOf / Read MemberOf permissions
 
 If you want to use `memberOf` within your filter you might need to give your querying user the permissions to use it. 
@@ -719,6 +719,21 @@ In case you have a working configuration and want to create a similar one or "sn
 Now you can modify and enable the configuration.
 
 == Performance Tips
+
+=== Filter out Deactivated Users
+
+With this filter you can filter out the deactivated users
+and show only active users.
+
+----
+!(userAccountControl:1.2.840.113556.1.4.803:=2)
+----
+
+Here is what the full filter can look like.
+
+----
+&(|(objectclass=organizationalPerson))(!(userAccountControl:1.2.840.113556.1.4.803:=2))(|(|(memberof=CN=Domain Users,CN=Users,DC=dp,DC=mosreg,DC=ru)(primaryGroupID=513))))
+----
 
 === Caching
 
