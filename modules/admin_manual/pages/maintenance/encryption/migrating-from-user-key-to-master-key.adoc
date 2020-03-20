@@ -6,9 +6,9 @@
 
 Why should you move away from User Key-based encryption?
 
-While it is a bit more secure than a central encryption approach, User key-based encryption has some disadvantages. 
+While it is a bit more secure than a central encryption approach, User key-based encryption has some disadvantages.
 It blocks some additional functions such as the integration of an online editor like LibreOffice or OnlyOffice into
-ownCloud and can cause problems when sharing files with groups. 
+ownCloud and can cause problems when sharing files with groups.
 See xref:configuration/files/encryption/encryption_configuration.adoc#limitations-of-user-key-based-encryption[Limitations of User-Key Based Encryption] for more details.
 Therefore Master-key-based encryption is now the recommended setup for all new installations.
 
