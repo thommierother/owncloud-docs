@@ -57,7 +57,7 @@ See xref:configuration/server/config_apps_sample_php_parameters.adoc#app-openid-
 
 === Save Settings in the Database
 
-If you run a clustered setup, the following method configuring the OpenID Connect app is preferred, because it is stateless. The app checks for settings in the database first. If none are found, it falls back to the settings stored in `config.php`. The settings are stored as a JSON formatted string with the following keys and values: 
+If you run a clustered setup, the following method configuring the OpenID Connect app is preferred, because it is stateless. The app checks for settings in the database first. If none are found, it falls back to the settings stored in `config.php`. The settings are stored as a JSON formatted string with the following keys and values:
 
 [width="50%",cols="40%,50%",options="header"]
 |===
@@ -108,16 +108,18 @@ https://cloud.example.com/index.php/apps/openidconnect/config
 
 . Webserver Rewrite Rule
 +
-To make the endpoint available under the static service discovery path, it is recommended to put a `RewriteRule` in place using `.htaccess` (the Apache modules `proxy` and `proxy_http` have to be enabled):
+To make the endpoint available under the static service discovery path, it is recommended to put a `RewriteRule` in place using `.htaccess` (the Apache modules `proxy` and `proxy_http` and `mod_rewrite` have to be enabled):
 +
 [source,apache]
 ----
-Redirect 301 /.well-known/openid-configuration /index.php/apps/openidconnect/config
+RewriteRule ^\.well-known/openid-configuration /index.php/apps/openidconnect/config [P]
 ----
 +
-TIP: Depending on the respective infrastructure setup there can be other ways to solve this. In any case, please make sure _not to use redirect rules_ as this will violate the OpenID Connect specification.
+TIP: Depending on the respective infrastructure setup there can be other ways to solve this. In any case, please make sure _not to use redirect rules_ (Apache "Redirect" from mod_alias instead of "Rewrite"). This will violate the OpenID Connect implementation of ownCloud.
 +
-IMPORTANT: If you use the `.htaccess` file in the ownCloud web root, you have to manually add that rewrite rule again after any ownCloud upgrade.
+TIP: If you use a load balancer or SSL accelerator in front of the webserver, it may be necessary to perform the rewrite there instead of the webserver (e.g. for HAPROXY, use `http-request set-path`s in the frontend configuration)
++
+IMPORTANT: If you use the `.htaccatess` file in the ownCloud web root, you have to manually add that rewrite rule again after any ownCloud upgrade.
 
 . Once service discovery is available as described above, the ownCloud clients will attempt to connect via OpenID Connect.
 
