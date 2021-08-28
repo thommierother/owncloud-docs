@@ -1,14 +1,14 @@
-= Example Setup Using Kopano Konnect
+= Example Setup Using Univention Corporate Server with Kopano Konnect
 :toc: right
 :toclevels: 2
-:openid-connect-frontchannel-logout-url: https://openid.net/specs/openid-connect-frontchannel-1_0.html
 :konnect: https://github.com/Kopano-dev/konnect
 :konnect-docs: https://github.com/Kopano-dev/konnect#running-konnect
-:konnect-webserver: https://documentation.kopano.io/kopanocore_administrator_manual/configure_kc_components.html#configure-a-webserver-for-konnect
 
 == Introduction
 
-Kopano Konnect is an OpenID Connect provider (IdP) that directly integrates a Web login and consent form. It brings support for both OpenID Connect (OIDC) and Open Authentication (OAuth 2.0). In addition to the easier integration with third-party applications, Kopano Konnect will also provide the authentication part for the Kopano RestAPI and clients consuming it.
+Univention Corporate Server (UCS) is a server operating system derived from Debian with an integrated management system for the central and cross-platform administration of servers, services, clients, desktops and users. UCS uses OpenLDAP as the central database for all stored data.
+
+Kopano Konnect is available for installation through the UCS App Center and runs as a Docker-based OpenID Connect provider (IdP). It brings support for both OpenID Connect (OIDC) and Open Authentication (OAuth 2.0).
 
 == Setup and Configuration
 
