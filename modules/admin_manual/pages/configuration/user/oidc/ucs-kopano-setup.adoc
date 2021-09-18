@@ -1,6 +1,8 @@
 = Example Setup Using Univention Corporate Server with Kopano Konnect
 :toc: right
-:toclevels: 2
+:toclevels: 3
+:ucs: https://www.univention.com/products/ucs/
+:oidc-ucs: https://docs.software-univention.de/handbuch-4.4.html#domain:oidc
 :konnect: https://github.com/Kopano-dev/konnect
 :konnect-docs: https://github.com/Kopano-dev/konnect#running-konnect
 
@@ -19,9 +21,9 @@ For the configuration examples, let's assume we have:
 - ownCloud Server available as `+https://cloud.example.com+`
 - Kopano Konnect available as `+https://idp.example.com+`
 
-=== Set Up and Configure Kopano
+=== Set Up and Configure Kopano on UCS
 
-To get your identity provider running and ready to be used with ownCloud, you have to obtain Kopano Konnect and run it with a set of configuration values which can be provided as environment variables. See the {konnect-docs}[Kopano Konnect documentation] for details.
+To get your identity provider running and ready to be used with ownCloud, you have to install Kopano Konnect with the UCS App Center and run it with a set of configuration values which can be provided as environment variables. See the {konnect-docs}[Kopano Konnect documentation] for details. Kopano Konnect runs as a docker container inside the UCS environment.
 
 Specifically, you have to:
 
@@ -29,7 +31,28 @@ Specifically, you have to:
 - Set up a reverse proxy to expose the routes required to connect to Kopano Konnect. You'll find instructions in the {konnect-webserver}[Kopano Konnect documentation].
 - Register the ownCloud clients.
 
-TIP: Kopano Konnect can be set up via Docker. Images are available on Docker Hub (`kopano/konnectd`).
+The configuration uses the built-in UCS shell tools UCR (Univention Configuration Registry) for the UCS Server-configuration settings and UDM (Univention Directory Manager) for Domain-related objects which are stored inside the OpenLDAP configuration tree. The resulting Kopano configuration is located at /etc/Kopano/ on the UCS server. Note that these files should not be edited directly as they are controlled and rewritten by UDM scripts.
+
+For any configuration change, a restart of the Kopano container is required:
+
+`systemctl stop docker-app-openid-connect-provider.service
+systemctl start docker-app-openid-connect-provider.service`
+
+For debugging you can set a debug level with ucr:
+
+TEST!!
+`ucr set oidc/konnectd/log-level=debug`
+
+And also jump into the container with standard docker commands:
+
+identify the kopano container with
+
+`docker ps -a`
+
+enter the container
+
+`docker exec -it $CONTAINER_NAME sh`
+
 
 === Configure ownCloud Server
 
