@@ -31,28 +31,26 @@ Specifically, you have to:
 - Set up a reverse proxy to expose the routes required to connect to Kopano Konnect. You'll find instructions in the {konnect-webserver}[Kopano Konnect documentation].
 - Register the ownCloud clients.
 
-The configuration uses the built-in UCS shell tools UCR (Univention Configuration Registry) for the UCS Server-configuration settings and UDM (Univention Directory Manager) for Domain-related objects which are stored inside the OpenLDAP configuration tree. The resulting Kopano configuration is located at /etc/Kopano/ on the UCS server. Note that these files should not be edited directly as they are controlled and rewritten by UDM scripts.
+The configuration uses the built-in UCS shell tools _univention-app_ for the UCS Server-configuration settings and UDM (Univention Directory Manager) for Domain-related objects which are stored inside the OpenLDAP configuration tree. The resulting Kopano configuration is located at /etc/Kopano/ on the UCS server. Note that these files should not be edited directly as they are controlled and rewritten by management scripts of the UCS server.
 
-For any configuration change, a restart of the Kopano container is required:
+For debugging you can set a debug level with the univention-app:
 
-`systemctl stop docker-app-openid-connect-provider.service
-systemctl start docker-app-openid-connect-provider.service`
+`univention-app configure openid-connect-provider --set oidc/konnectd/log_level=debug`
 
-For debugging you can set a debug level with ucr:
+You can also jump into the container with standard docker commands:
 
-TEST!!
-`ucr set oidc/konnectd/log-level=debug`
-
-And also jump into the container with standard docker commands:
-
-identify the kopano container with
+Identify the kopano container with
 
 `docker ps -a`
 
-enter the container
+and enter the container
 
 `docker exec -it $CONTAINER_NAME sh`
 
+After any configuration change, a restart of the Kopano container is required:
+
+`systemctl stop docker-app-openid-connect-provider.service
+systemctl start docker-app-openid-connect-provider.service`
 
 === Configure ownCloud Server
 
@@ -87,10 +85,23 @@ An example snippet that can be added to `config.php` is shown below.
     'search-attribute' => 'preferred_username'
 ],
 ----
+Dont forget to restart the container with _systemctl stop/start docker-app-openid-connect-provider.service_ after registering the clients.
 
-=== Register ownCloud Clients
+=== Register ownCloud Clients on the UCS Kopano Konnect container
 
 To allow the ownCloud clients (Web/desktop/Android/iOS) to interact with the identity provider, you have to register them as clients. In the case of Kopano Konnect, you can do this using Konnect's `identifier-registration.yaml`. The default values for the regular ownCloud clients are shown below. Other environments might require a different set of values.
+
+The following registration example uses the UDM univention directory manager shell command (udm).
+
+`udm oidc/rpservice create --set name=<internal_name> \
+    --position cn=oidc,cn=univention,$(ucr get ldap/base) \
+    --set clientid=<client_identifier> \
+    --set clientsecret=<averylongpassword> \
+    --set trusted=yes \
+    --set applicationtype=web \
+    --set redirectURI=<URL_from_client_documentation>`
+
+Dont't forget to restart the container after registration of the clients with _`systemctl stop/start docker-app-openid-connect-provider.service_
 
 [TIP]
 ====
