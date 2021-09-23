@@ -400,7 +400,7 @@ https://web.dev/schemeful-samesite/
 === Define the directory where the skeleton files are located
 These files will be copied to the data directory of new users.
 
-Leave this directory empty if you do not want to copy any skeleton files.
+Set this to the empty string if you do not want to copy any skeleton files.
 A valid path must be given for this key otherwise errors will be generated in owncloud.log.
 
 ==== Code Sample
@@ -1658,6 +1658,20 @@ instead of hard forcing HTTPS
 'sharing.federation.allowHttpFallback' => false,
 ....
 
+=== Show a quick action for the public link creation
+Set this to true to display a quick action for creating public links
+in the filelist. A public link created this way will be read-only per default.
+
+Note: if enforced password protection for read-only links is enabled, the
+quick action will not be displayed!
+
+==== Code Sample
+
+[source,php]
+....
+'sharing.showPublicLinkQuickAction' => false,
+....
+
 == All other configuration options
 
 === Define additional database driver options
@@ -2003,6 +2017,9 @@ By default ownCloud will store the part files created during upload in the
 same storage as the upload target. Setting this to false will store the part
 files in the root of the users folder which might be required to work with certain
 external storage setups that have limited rename capabilities.
+
+Note that setting this to false causes issues with the following apps: Encryption,
+Document classification, Anti-Virus and Ransomware Protection.
 
 ==== Code Sample
 
